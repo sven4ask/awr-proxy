@@ -1,0 +1,39 @@
+{
+  "name": "awr-proxy",
+  "version": "1.0.0",
+  "description": "AWR Proxy Service",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app",
+    "test": "mocha --ui bdd --recursive test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/legalthings/awr-proxy.git"
+  },
+  "keywords": [
+    "awr",
+    "proxy"
+  ],
+  "author": "Sven Stam",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/legalthings/awr-proxy/issues"
+  },
+  "homepage": "https://github.com/legalthings/awr-proxy#readme",
+  "dependencies": {
+    "config": "^1.21.0",
+    "express": "^4.13.4",
+    "http-proxy": "^1.13.3",
+    "passport": "^0.3.2",
+    "passport-http": "^0.3.0",
+    "url-parse": "^1.1.1",
+    "winston": "^2.2.0"
+  },
+  "devDependencies": {
+    "mocha": "^2.5.3",
+    "nock": "^8.0.0",
+    "should": "^9.0.2",
+    "supertest": "^1.2.0"
+  }
+}

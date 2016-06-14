@@ -1,0 +1,10 @@
+{
+  "token": "dev",
+  "port": 1337,
+  "accounts": {
+    "foo" : {
+      "password": "test",
+      "project": "foobar"
+    }
+  }
+}

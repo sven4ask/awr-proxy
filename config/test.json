@@ -1,0 +1,10 @@
+{
+  "token": "1234",
+  "port": 1337,
+  "accounts": {
+    "foo" : {
+      "password": "test",
+      "project": "foo project"
+    }
+  }
+}
