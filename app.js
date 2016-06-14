@@ -17,7 +17,7 @@ passport.use(new BasicStrategy(
       }
     }
 
-    done(null, false);
+    return done(null, false);
   }
 ));
 

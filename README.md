@@ -29,5 +29,3 @@ You can create one or more accounts per project. Simply add an account to the pr
   }
 }
 ```
-
-
