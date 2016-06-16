@@ -1,17 +1,17 @@
 'use strict';
-const config = require('config');
-const parse = require('url-parse');
-const httpProxy = require('http-proxy');
-const https = require('https');
+var config = require('config');
+var parse = require('url-parse');
+var httpProxy = require('http-proxy');
+var https = require('https');
 
 // API Proxy
-const proxy = httpProxy.createProxyServer({
+var proxy = httpProxy.createProxyServer({
   xfwd: true,
 });
 
-const PROXY_URL = 'https://api.awrcloud.com';
+var PROXY_URL = 'https://api.awrcloud.com';
 
-proxy.on('proxyReq', (proxyReq, req, res, options) => {
+proxy.on('proxyReq', function(proxyReq, req, res, options) {
 
   proxyReq.setHeader('X-Forwarded-Url', req.originalUrl);
 
@@ -44,7 +44,7 @@ module.exports = function (req, res, next) {
       host: 'api.awrcloud.com'
     },
     agent  : https.globalAgent
-  }, (e) => {
-    next(`Failed to connect to API  ${PROXY_URL} : ${e}`);
+  }, function(e) {
+    next('Failed to connect to API ' + PROXY_URL + ' : ' + e);
   });
 }

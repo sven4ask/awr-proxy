@@ -1,17 +1,16 @@
 'use strict';
-const express = require('express');
-const log = require('winston');
-const passport = require('passport');
-const BasicStrategy = require('passport-http').BasicStrategy;
-const config = require('config');
+var express = require('express');
+var log = require('winston');
+var passport = require('passport');
+var BasicStrategy = require('passport-http').BasicStrategy;
+var config = require('config');
 
-const app = express();
+var app = express();
 
-passport.use(new BasicStrategy(
-  (username, password, done) => {
-    const accounts = config.get('accounts');
+passport.use(new BasicStrategy(function(username, password, done) {
+    var accounts = config.get('accounts');
     if (accounts.has(username)) {
-      const user = accounts.get(username);
+      var user = accounts.get(username);
       if (user.password === password) {
         return done(null, user);
       }
@@ -24,11 +23,11 @@ passport.use(new BasicStrategy(
 // Middleware
 app.all('*', passport.authenticate('basic', { session: false }), require('./middleware/proxy'));
 
-const port = (config.has('port') ? config.get('port') : 1337);
+var port = (config.has('port') ? config.get('port') : 1337);
 
 // Start the server
-const server = app.listen(port, () => {
-  log.info(`AWR Proxy listening on port ${server.address().port}`);
+var server = app.listen(port, function() {
+  log.info('AWR Proxy listening on port ' + server.address().port);
 });
 
 module.exports = app;

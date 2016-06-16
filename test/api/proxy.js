@@ -1,19 +1,19 @@
 'use strict';
 process.env.NODE_ENV = 'test';
 
-const app = require('../../app');
-const nock = require('nock');
-const request = require('supertest');
-const should = require('should');
+var app = require('../../app');
+var nock = require('nock');
+var request = require('supertest');
+var should = require('should');
 
-describe('API Proxy', () => {
-  describe('GET /sync.php', () => {
-    it('should return a 401 with wrong password', (done) => {
+describe('API Proxy', function() {
+  describe('GET /sync.php', function() {
+    it('should return a 401 with wrong password', function(done) {
       request(app)
         .get('/sync.php?action=get_dates')
         .expect(401)
         .auth('foo', 'wrongpassword')
-        .end((err, res) => {
+        .end(function(err, res) {
           should.not.exist(err);
 
           res.body.should.be.obj;
@@ -22,10 +22,10 @@ describe('API Proxy', () => {
         });
     });
 
-    it('should return a dates that a project has rankings for', (done) => {
+    it('should return a dates that a project has rankings for', function(done) {
       nock('https://api.awrcloud.com')
         .get('/sync.php')
-        .query((query) => {
+        .query(function(query) {
           if (query.action == null) {
             return false;
           }
@@ -51,9 +51,9 @@ describe('API Proxy', () => {
         .get('/sync.php?action=get_dates')
         .expect(200)
         .auth('foo', 'test')
-        .end((err, res) => {
+        .end(function(err, res) {
           should.not.exist(err);
-          const dates = res.body.dates;
+          var dates = res.body.dates;
           dates[0].date.should.be.eql('2013-08-01');
 
           done();
