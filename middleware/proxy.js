@@ -3,6 +3,7 @@ var config = require('config');
 var parse = require('url-parse');
 var httpProxy = require('http-proxy');
 var https = require('https');
+var forbiddenActions = ['create','update','projects'];
 
 // API Proxy
 var proxy = httpProxy.createProxyServer({
@@ -23,6 +24,7 @@ function changeProject(req, user) {
 
 function replaceProject(url, user) {
   url = parse(url, true);
+  url.query.project_name = user.project;
   url.query.project = user.project;
   return url.toString();
 }
@@ -37,6 +39,11 @@ module.exports = function (req, res, next) {
 
   req.url = replaceProject(req.url, req.user);
   req.url = addToken(req.url, config.get('token'));
+
+  var query = parse(req.url, true).query;
+  if (query.action && forbiddenActions.indexOf(query.action) !== -1) {
+    return res.status(403).send('Forbidden action');
+  }
 
   proxy.web(req, res, {
     target: PROXY_URL,

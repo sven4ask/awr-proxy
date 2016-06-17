@@ -34,7 +34,7 @@ describe('API Proxy', function() {
             return false;
           }
 
-          if (query.project !== 'foo project') {
+          if (query.project_name !== 'foo project') {
             return false;
           }
           return true;
@@ -55,6 +55,33 @@ describe('API Proxy', function() {
           should.not.exist(err);
           var dates = res.body.dates;
           dates[0].date.should.be.eql('2013-08-01');
+
+          done();
+        });
+    });
+
+    it('should return a 403 if you try to get projects', function(done) {
+      request(app)
+        .get('/sync.php?action=projects')
+        .expect(403)
+        .auth('foo', 'test')
+        .end(function(err, res) {
+          should.not.exist(err);
+
+          done();
+        });
+    });
+  });
+
+  describe('GET /index.php', function() {
+    it('should return a 404', function(done) {
+      request(app)
+        .get('/index.php?action=get_dates')
+        .expect(404)
+        .end(function(err, res) {
+          should.not.exist(err);
+
+          res.body.should.be.obj;
 
           done();
         });
