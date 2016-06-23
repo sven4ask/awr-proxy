@@ -87,4 +87,37 @@ describe('API Proxy', function() {
         });
     });
   });
+
+  describe('GET /get.php', function() {
+    it('should return a dates that a project has rankings for', function(done) {
+      nock('https://api.awrcloud.com')
+        .get('/get.php')
+        .query(function(query) {
+          if (query.action == null) {
+            return false;
+          }
+
+          if (query.token !== '1234') {
+            return false;
+          }
+
+          if (query.project_name !== 'foo project') {
+            return false;
+          }
+          return true;
+        })
+        .reply(200, 'https://api.awrcloud.com/get.php?action=list&project=project+name&token=myAPIkey&date=2013-07-24&file=0.tar.xz\n' +
+          'https://api.awrcloud.com/get.php?action=list&project=project+name&token=myAPIkey&date=2013-07-24&file=1.tar.xz');
+
+      request(app)
+        .get('/get.php?action=list')
+        .expect(200)
+        .auth('foo', 'test')
+        .end(function(err, res) {
+          should.not.exist(err);
+
+          done();
+        });
+    });
+  })
 });

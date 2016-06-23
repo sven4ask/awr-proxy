@@ -22,6 +22,7 @@ passport.use(new BasicStrategy(function(username, password, done) {
 
 // Middleware
 app.all('/sync.php', passport.authenticate('basic', { session: false }), require('./middleware/proxy'));
+app.all('/get.php', passport.authenticate('basic', { session: false }), require('./middleware/proxy'));
 // If no route is matched by now, it must be a 404
 app.use(function(req, res) {
   res.status(404).send('Not found!');
