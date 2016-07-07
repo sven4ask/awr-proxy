@@ -3,7 +3,7 @@ var config = require('config');
 var parse = require('url-parse');
 var httpProxy = require('http-proxy');
 var https = require('https');
-var forbiddenActions = ['create','update','projects'];
+var forbiddenActions = ['create','update','projects','export_ranking'];
 
 // API Proxy
 var proxy = httpProxy.createProxyServer({
