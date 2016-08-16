@@ -115,7 +115,43 @@ describe('API Proxy', function() {
         .auth('foo', 'test')
         .end(function(err, res) {
           should.not.exist(err);
+          var list = res.text;
+          list.should.be.equal('https://api.awrcloud.com/get.php?action=list&project=project+name&token=myAPIkey&date=2013-07-24&file=0.tar.xz\n' +
+          'https://api.awrcloud.com/get.php?action=list&project=project+name&token=myAPIkey&date=2013-07-24&file=1.tar.xz');
 
+          done();
+        });
+    });
+
+    it('should return a export rankings with hidden tokens', function(done) {
+      nock('https://api.awrcloud.com')
+        .get('/get.php')
+        .query(function(query) {
+          if (query.action == null) {
+            return false;
+          }
+
+          if (query.token !== '1234') {
+            return false;
+          }
+
+          if (query.project_name !== 'foo project') {
+            return false;
+          }
+          return true;
+        })
+        .reply(200, 'https://api.awrcloud.com/get.php?action=export_ranking&project=project+name&token=1234&date=2013-07-24&file=0.tar.xz\n' +
+          'https://api.awrcloud.com/get.php?action=export_ranking&project=project+name&token=1234&date=2013-07-24&file=1.tar.xz');
+
+      request(app)
+        .get('/get.php?action=export_ranking')
+        .expect(200)
+        .auth('foo', 'test')
+        .end(function(err, res) {
+          should.not.exist(err);
+          var exportRanking = res.text;
+          exportRanking.should.be.equal('https://api.awrcloud.com/get.php?action=export_ranking&project=project+name&token=xxxx&date=2013-07-24&file=0.tar.xz\n' +
+            'https://api.awrcloud.com/get.php?action=export_ranking&project=project+name&token=xxxx&date=2013-07-24&file=1.tar.xz')
           done();
         });
     });

@@ -27,6 +27,8 @@
     "http-proxy": "^1.13.3",
     "passport": "^0.3.2",
     "passport-http": "^0.3.0",
+    "replacestream": "^4.0.0",
+    "request": "^2.74.0",
     "url-parse": "^1.1.1",
     "winston": "^2.2.0"
   },
