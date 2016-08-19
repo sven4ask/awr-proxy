@@ -47,7 +47,7 @@ module.exports = function (req, res, next) {
     if (forbiddenActions.indexOf(query.action) !== -1) return res.status(403).send('Forbidden action');
 
     if (query.action == 'export_ranking') {
-      return request.get(PROXY_URL + '/get.php', {query: query}).pipe(replaceStream(config.get('token'), 'xxxx')).pipe(res);
+      return request.get({url: PROXY_URL + '/get.php', qs: query}).pipe(replaceStream(config.get('token'), 'xxxx')).pipe(res);
     }
   }
 

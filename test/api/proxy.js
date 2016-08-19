@@ -138,13 +138,19 @@ describe('API Proxy', function() {
           if (query.project_name !== 'foo project') {
             return false;
           }
+
+          if (!query.startDate) {
+            return false;
+          }
+          
+          
           return true;
         })
         .reply(200, 'https://api.awrcloud.com/get.php?action=export_ranking&project=project+name&token=1234&date=2013-07-24&file=0.tar.xz\n' +
           'https://api.awrcloud.com/get.php?action=export_ranking&project=project+name&token=1234&date=2013-07-24&file=1.tar.xz');
 
       request(app)
-        .get('/get.php?action=export_ranking')
+        .get('/get.php?action=export_ranking&startDate=2016-01-01&stopDate=2016-07-06')
         .expect(200)
         .auth('foo', 'test')
         .end(function(err, res) {
